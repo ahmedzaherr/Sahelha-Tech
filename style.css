@@ -38,7 +38,7 @@ header .container {
 .logo {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 10px;
 }
 
 .logo img {
@@ -265,4 +265,5 @@ footer {
     .card {
         flex: 1 1 calc(50% - 20px); /* 2 columns on tablet */
     }
+
 }
