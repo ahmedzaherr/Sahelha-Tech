@@ -42,7 +42,7 @@ header .container {
 }
 
 .logo img {
-    height: 50px; /* تحكم في طول اللوجو */
+    height: 40px; /* تحكم في طول اللوجو */
     width: auto;
 }
 
@@ -267,4 +267,5 @@ footer {
     }
 
 }
+
 
