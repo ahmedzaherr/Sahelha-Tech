@@ -38,11 +38,11 @@ header .container {
 .logo {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 15px;
 }
 
 .logo img {
-    height: 60px; /* تحكم في طول اللوجو */
+    height: 50px; /* تحكم في طول اللوجو */
     width: auto;
 }
 
@@ -267,3 +267,4 @@ footer {
     }
 
 }
+
