@@ -1,0 +1,79 @@
+:root {
+    --primary: #ff7a21;
+    --bg-dark: #050505;
+    --glass: rgba(255, 255, 255, 0.03); 
+    --border: rgba(255, 255, 255, 0.08);
+    --transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    --section-gap: 150px; 
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; }
+body { background: var(--bg-dark); color: #fff; line-height: 1.6; overflow-x: hidden; scroll-behavior: smooth; }
+.container { width: 85%; max-width: 1400px; margin: 0 auto; }
+
+/* Logo scaling */
+.main-logo-img { height: 80px; margin-bottom: 25px; object-fit: contain; }
+.nav-logo-img { height: 40px; transition: var(--transition); object-fit: contain; }
+
+/* Gate Screen */
+.gate-overlay { position: fixed; inset: 0; background: radial-gradient(circle at center, #1a0f08, #000); z-index: 9999; display: flex; align-items: center; justify-content: center; transition: opacity 0.6s ease; }
+.gate-card { background: var(--glass); backdrop-filter: blur(30px); border: 1px solid var(--border); padding: 60px 40px; border-radius: 40px; text-align: center; max-width: 500px; width: 92%; }
+.input-field { background: rgba(255,255,255,0.02); border: 1px solid var(--border); margin: 20px 0; padding: 18px 25px; border-radius: 16px; display: flex; align-items: center; }
+.input-field input { background: transparent; border: none; color: #fff; width: 100%; outline: none; margin-left: 15px; font-size: 16px; }
+.gate-btn { background: var(--primary); color: #fff; border: none; padding: 18px; width: 100%; border-radius: 15px; font-weight: 800; cursor: pointer; transition: var(--transition); }
+.error-text { color: #ff4d4d; font-size: 13px; margin-bottom: 10px; display: none; }
+
+/* Nav */
+header { position: fixed; top: 0; width: 100%; padding: 15px 0; background: rgba(5, 5, 5, 0.7); backdrop-filter: blur(20px); z-index: 1000; border-bottom: 1px solid var(--border); }
+.header-flex { display: flex; justify-content: space-between; align-items: center; }
+.nav-links { display: flex; gap: 40px; list-style: none; align-items: center; }
+.nav-links a { color: #c7c7c7; text-decoration: none; font-size: 15px; transition: 0.3s; }
+.nav-cta { background: var(--primary); color: #fff !important; padding: 10px 22px; border-radius: 10px; font-weight: 700; }
+
+/* Hero */
+.hero-section { height: 100vh; background: linear-gradient(rgba(0,0,0,0.3), rgba(5,5,5,1)), url('imgs/woman-enjoying-movie-night.jpg') center/cover no-repeat fixed; display: flex; align-items: center; text-align: center; }
+.hero-section h1 { font-size: clamp(2.5rem, 8vw, 6rem); font-weight: 800; margin-bottom: 30px; letter-spacing: -2px; }
+.hero-section h1 span { color: var(--primary); }
+.status-badge { color: var(--primary); letter-spacing: 4px; font-size: 11px; margin-bottom: 25px; display: block; text-transform: uppercase; }
+.btn-primary { background: var(--primary); color: #fff; padding: 20px 45px; border-radius: 18px; text-decoration: none; font-weight: 800; display: inline-block; transition: var(--transition); }
+.btn-outline { border: 1px solid var(--border); color: #fff; padding: 20px 45px; border-radius: 18px; text-decoration: none; margin-left: 15px; display: inline-block; }
+
+/* Partners */
+.partners-area { padding: 100px 0; background: #080808; border-bottom: 1px solid var(--border); }
+.partner-group { text-align: center; }
+.group-title { color: var(--primary); font-size: 10px; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 50px; opacity: 0.6; }
+.partners-flex { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 60px; }
+.brand-card { width: 140px; height: 60px; filter: grayscale(100%) brightness(0.7); opacity: 0.4; transition: var(--transition); display: flex; justify-content: center; }
+.brand-card img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.brand-card:hover { filter: grayscale(0%) brightness(1); opacity: 1; transform: translateY(-5px); }
+.group-divider { height: 1px; width: 300px; background: linear-gradient(90deg, transparent, var(--border), transparent); margin: 60px auto; }
+
+/* Form Elements */
+.section-padding { padding: var(--section-gap) 0; }
+.section-title { text-align: center; margin-bottom: 80px; }
+.main-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+.info-box { background: var(--glass); padding: 50px 35px; border-radius: 35px; border: 1px solid var(--border); text-align: center; transition: var(--transition); }
+.info-box i { font-size: 40px; color: var(--primary); margin-bottom: 25px; display: block; }
+
+/* Enhanced Form Layout */
+.contact-card { display: grid; grid-template-columns: 1.5fr 1fr; background: var(--glass); border-radius: 50px; overflow: hidden; border: 1px solid var(--border); }
+.form-side { padding: clamp(30px, 5vw, 80px); }
+.form-row-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.form-side input, .form-side textarea, .form-side select { width: 100%; padding: 20px; background: rgba(255,255,255,0.02); border: 1px solid var(--border); color: #fff; border-radius: 15px; margin-bottom: 20px; outline: none; font-size: 16px; }
+.form-side select option { background: #0a0a0a; color: #fff; }
+.submit-btn { background: var(--primary); color: #fff; border: none; padding: 20px; border-radius: 15px; font-weight: 800; cursor: pointer; width: 100%; font-size: 18px; transition: var(--transition); }
+
+.info-side { background: var(--primary); padding: 60px 40px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+.social-icons { display: flex; gap: 15px; margin: 30px 0; }
+.social-icons a { width: 55px; height: 55px; background: #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 20px; transition: 0.4s; }
+
+/* Mobile */
+@media (max-width: 768px) {
+    .menu-toggle { display: flex; flex-direction: column; gap: 6px; cursor: pointer; }
+    .menu-toggle .bar { width: 28px; height: 3px; background: #fff; }
+    .nav-container { position: fixed; right: -110%; top: 0; width: 85%; height: 100vh; background: rgba(8, 8, 8, 0.98); padding: 100px 30px; transition: 0.6s; z-index: 1001; }
+    .nav-container.active { right: 0; }
+    .nav-links { flex-direction: column; align-items: flex-start; }
+    .contact-card { grid-template-columns: 1fr; }
+    .form-row-grid { grid-template-columns: 1fr; gap: 0; }
+}
