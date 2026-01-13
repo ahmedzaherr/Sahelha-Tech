@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop | Sahelha Tech</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="shop-page">
+
+    <nav class="navbar">
+        <div class="nav-container container">
+            <a href="index.html" class="logo">
+                <img src="imgs/Sahelha.png" alt="Logo">
+                
+            </a>
+            
+            <div class="search-wrapper">
+                <input type="text" id="mainSearch" placeholder="Search products..." onkeyup="searchProducts()">
+                <i class="fas fa-search"></i>
+            </div>
+
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html" class="active">Shop</a></li>
+                <li><a href="services.html">Services</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="shop-main-layout">
+            <aside class="shop-sidebar">
+    <h3>Categories</h3>
+    <ul class="category-list">
+        <li class="cat-item active" onclick="filterCategory('all', this)">
+            <i class="fas fa-th-large"></i> All Products
+        </li>
+        <li class="cat-item" onclick="filterCategory('offers', this)" style="color: #ff4d4d; font-weight: bold;">
+            <i class="fas fa-percentage"></i> Hot Offers %
+        </li>
+        
+        <li class="cat-item" onclick="filterCategory('smart-home', this)">
+            <i class="fas fa-home"></i> Smart Home (IoT)
+        </li>
+        <li class="cat-item" onclick="filterCategory('cameras', this)">
+            <i class="fas fa-video"></i> Security Cameras
+        </li>
+        <li class="cat-item" onclick="filterCategory('networking', this)">
+            <i class="fas fa-wifi"></i> Networking & Routers
+        </li>
+        <li class="cat-item" onclick="filterCategory('intercom', this)">
+            <i class="fas fa-door-open"></i> Intercom Systems
+        </li>
+        <li class="cat-item" onclick="filterCategory('access-control', this)">
+            <i class="fas fa-fingerprint"></i> Access Control
+        </li>
+        <li class="cat-item" onclick="filterCategory('sound-systems', this)">
+            <i class="fas fa-volume-up"></i> Sound Systems
+        </li>
+        <li class="cat-item" onclick="filterCategory('accessories', this)">
+            <i class="fas fa-plug"></i> Tech Accessories
+        </li>
+    </ul>
+</aside>aside>
+
+            <main class="products-display-area">
+                <h2 id="category-title">All Products</h2>
+                <p id="no-results" style="display:none; color: var(--text-dim); margin: 20px 0;">No items found...</p>
+                
+                <div class="product-grid" id="product-grid">
+                    
+                    <div class="product-card" data-category="smart-home">
+                        <div class="product-img"><img src="images/p1.jpg" alt="Product"></div>
+                        <div class="product-info">
+                            <h4 class="p-name">Smart WiFi Switch</h4>
+                            <p class="brand">Brand: Sonoff</p>
+                            <p class="price">450 EGP</p>
+                            <button class="btn-order-now" onclick="sendOrder('Smart Switch', '450 EGP')">Order Now</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card" data-category="smart-home offers">
+                        <div class="badge-offer">SAVE 20%</div> <div class="product-img"><img src="images/p1.jpg" alt="Product"></div>
+                            <div class="product-info">
+                                <h4 class="p-name">Smart WiFi Switch 4-Gang</h4>
+                                <p class="brand">Brand: Sonoff</p>
+                                <p class="price">
+                                <span class="old-price">600 EGP</span> 
+                                <span class="current-price">480 EGP</span>
+                                </p>
+                                <button class="btn-order-now" onclick="sendOrder('Smart Switch (Offer)', '480 EGP')">Order Now</button>
+                            </div>
+                        </div>
+                    </div>
+            </main>
+        </div>
+    </div>
+<script>
+        // دالة الفلترة الذكية للأقسام والعروض
+        function filterCategory(cat, el) {
+            // 1. إزالة كلاس active من كل الأقسام وإضافته للقسم المختار
+            document.querySelectorAll('.cat-item').forEach(item => item.classList.remove('active'));
+            el.classList.add('active');
+            
+            // 2. تغيير عنوان الصفحة لاسم القسم المختار
+            document.getElementById('category-title').innerText = el.innerText;
+            
+            // 3. جلب كل كروت المنتجات
+            const cards = document.querySelectorAll('.product-card');
+            
+            cards.forEach(card => {
+                // تقسيم الـ data-category إلى مصفوفة (عشان لو المنتج فيه كذا قسم زي "offers" و "smart-home")
+                const categories = card.getAttribute('data-category').split(' ');
+                
+                // 4. إظهار المنتج إذا كان القسم "الكل" أو إذا كان القسم موجود في بيانات المنتج
+                if (cat === 'all' || categories.includes(cat)) {
+                    card.style.display = "block";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+        }
+
+        // هنا يمكنك ترك باقي الدوال السابقة (مثل دالة البحث ودالة الطلب عبر واتساب)
+        function searchProducts() { 
+            /* كود البحث اللي معاك */ 
+        }
+
+        function sendOrder(name, price) {
+    const user = localStorage.getItem('userName') || 'Customer';
+    const msg = `*New Order* 🛒\n*Customer:* ${user}\n*Product:* ${name}\n*Price:* ${price}`;
+    // قم بتغيير الرقم المكتوب بعد wa.me/ هنا
+    window.open(`https://wa.me/201003261082?text=${encodeURIComponent(msg)}`, '_blank');
+}
+    </script>
+    <script>
+    // التأكد من أن المستخدم سجل بياناته قبل دخول المتجر أو الخدمات
+    if (localStorage.getItem('isVerified') !== 'true') {
+        window.location.href = 'gate.html';
+    }
+
+    // هنا تضع باقي دوال الصفحة الأصلية (مثل searchProducts أو sendOrder)
+</script>
+</body>
+</html>
