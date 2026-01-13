@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop | Sahelha Tech</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body class="shop-page">
+
+    <nav class="navbar">
+        <div class="nav-container container">
+            <a href="index.html" class="logo">
+                <img src="imgs/Sahelha.png" alt="Logo">
+            </a>
+            <div class="search-wrapper">
+                <input type="text" id="mainSearch" placeholder="Search products..." onkeyup="searchProducts()">
+                <i class="fas fa-search"></i>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html" class="active">Shop</a></li>
+                <li><a href="services.html">Services</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="shop-main-layout">
+            <aside class="shop-sidebar">
+                <h3>Categories</h3>
+                <ul class="category-list">
+                    <li class="cat-item active" onclick="filterCategory('all', this)">
+                        <i class="fas fa-th-large"></i> All Products
+                    </li>
+                    <li class="cat-item" onclick="filterCategory('offers', this)"
+                        style="color: #ff4d4d; font-weight: bold;">
+                        <i class="fas fa-percentage"></i> Hot Offers %
+                    </li>
+                    <li class="cat-item" onclick="filterCategory('smart-home', this)">
+                        <i class="fas fa-home"></i> Smart Home (IoT)
+                    </li>
+                    <li class="cat-item" onclick="filterCategory('cameras', this)">
+                        <i class="fas fa-video"></i> Security Cameras
+                    </li>
+                    <li class="cat-item" onclick="filterCategory('networking', this)">
+                        <i class="fas fa-wifi"></i> Networking & Routers
+                    </li>
+                    <li class="cat-item" onclick="filterCategory('intercom', this)">
+                        <i class="fas fa-door-open"></i> Intercom Systems
+                    </li>
+                    <li class="cat-item" onclick="filterCategory('access-control', this)">
+                        <i class="fas fa-fingerprint"></i> Access Control
+                    </li>
+                    <li class="cat-item" onclick="filterCategory('sound-systems', this)">
+                        <i class="fas fa-volume-up"></i> Sound Systems
+                    </li>
+                    <li class="cat-item" onclick="filterCategory('accessories', this)">
+                        <i class="fas fa-plug"></i> Tech Accessories
+                    </li>
+                </ul>
+            </aside>
+
+            <main class="products-display-area">
+                <h2 id="category-title">All Products</h2>
+                <p id="no-results" style="display:none; color: gray; margin: 20px 0;">No items found...</p>
+                <div class="product-grid" id="product-grid">
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        function filterCategory(cat, el) {
+            document.querySelectorAll('.cat-item').forEach(item => item.classList.remove('active'));
+            el.classList.add('active');
+            document.getElementById('category-title').innerText = el.innerText;
+
+            const cards = document.querySelectorAll('.product-card');
+            cards.forEach(card => {
+                const categories = card.getAttribute('data-category').split(' ');
+                if (cat === 'all' || categories.includes(cat)) {
+                    card.style.display = "block";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+        }
+
+        function sendOrder(name, price) {
+            const user = localStorage.getItem('userName') || 'Customer';
+            const msg = `*New Order* 🛒\n*Customer:* ${user}\n*Product:* ${name}\n*Price:* ${price}`;
+            window.open(`https://wa.me/201003261082?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
+        function searchProducts() {
+            let input = document.getElementById('mainSearch').value.toLowerCase();
+            let cards = document.querySelectorAll('.product-card');
+            cards.forEach(card => {
+                let name = card.querySelector('.p-name').innerText.toLowerCase();
+                if (name.includes(input)) {
+                    card.style.display = "block";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+        }
+
+        // دالة عرض المنتجات التي سيتم استدعاؤها من Firebase
+        function displayProducts(products) {
+            const grid = document.getElementById('product-grid');
+            grid.innerHTML = "";
+
+            products.forEach(product => {
+                const card = document.createElement('div');
+                card.className = "product-card";
+                card.setAttribute('data-category', product.category);
+
+                card.innerHTML = `
+    ${product.offer ? `<div class="badge-offer">OFFER</div>` : ''}
+    <div class="product-img">
+        <img src="${product.img}" alt="${product.name}" onerror="this.src='imgs/placeholder.png'">
+    </div>
+    <div class="product-info">
+        <h4 class="p-name">${product.name}</h4>
+        <p class="brand">Brand: ${product.brand}</p>
+        <p class="price">
+            ${product.oldPrice ? `<span class="old-price" style="text-decoration:line-through; color:gray;">${product.oldPrice} EGP</span>` : ''}
+            <span class="current-price" style="color:#ff7043; font-weight:bold;">${product.price} EGP</span>
+        </p>
+        <button class="btn-order-now" onclick="sendOrder('${product.name}', '${product.price} EGP')">Order Now</button>
+    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        if (localStorage.getItem('isVerified') !== 'true') {
+            window.location.href = 'gate.html';
+        }
+    </script>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAJgaanuAGqAsnnnnL6RqtGChrbKq86tfo",
+            authDomain: "sahelha-tech-cb54d.firebaseapp.com",
+            projectId: "sahelha-tech-cb54d",
+            storageBucket: "sahelha-tech-cb54d.firebasestorage.app",
+            messagingSenderId: "569212881292",
+            appId: "1:569212881292:web:e2f48aca0925f1b32e6ea9"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        const q = query(collection(db, "products"), orderBy("createdAt", "desc"));
+
+        onSnapshot(q, (snapshot) => {
+            const productsArray = [];
+            snapshot.forEach((doc) => {
+                productsArray.push({ id: doc.id, ...doc.data() });
+            });
+            displayProducts(productsArray);
+        });
+    </script>
+</body>
+
+</html>

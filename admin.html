@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Admin - Sahelha Tech Control</title>
+    <style>
+        body {
+            background: #121212;
+            color: white;
+            font-family: sans-serif;
+            padding: 40px;
+        }
+
+        .admin-box {
+            max-width: 500px;
+            margin: auto;
+            background: #1e1e1e;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        h2 {
+            text-align: center;
+            color: #ff7043;
+        }
+
+        input,
+        select,
+        button {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 1px solid #333;
+            box-sizing: border-box;
+        }
+
+        input {
+            background: #252525;
+            color: white;
+        }
+
+        input:focus {
+            border-color: #ff7043;
+            outline: none;
+        }
+
+        button {
+            background: #ff7043;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            border: none;
+        }
+
+        button:hover {
+            background: #f4511e;
+        }
+
+        .msg {
+            text-align: center;
+            color: #4caf50;
+            display: none;
+            font-weight: bold;
+            padding: 10px;
+        }
+
+        small {
+            color: #888;
+            font-size: 0.8rem;
+            display: block;
+            margin-top: -5px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="admin-box">
+        <h2>Add New Product 🚀</h2>
+        <p id="successMsg" class="msg">✅ Product Added & Synced Successfully!</p>
+
+        <input type="text" id="pName" placeholder="Product Name (e.g., Smart Switch)">
+        <input type="text" id="pBrand" placeholder="Brand (e.g., Sonoff)">
+
+        <input type="number" id="pPrice" placeholder="Current Price (EGP)">
+
+        <input type="number" id="pOldPrice" placeholder="Old Price (Optional - for Offers)">
+        <small>* If you fill this, the product will appear in "Hot Offers".</small>
+
+        <select id="pCategory">
+            <option value="smart-home">Smart Home (IoT)</option>
+            <option value="cameras">Security Cameras</option>
+            <option value="networking">Networking & Routers</option>
+            <option value="intercom">Intercom Systems</option>
+            <option value="access-control">Access Control</option>
+            <option value="sound-systems">Sound Systems</option>
+            <option value="accessories">Tech Accessories</option>
+        </select>
+
+        <input type="text" id="pImg" placeholder="Image Path (e.g., imgs/p1.jpg)">
+        <small>* Make sure the path is exact (Example: imgs/camera.jpg)</small>
+
+        <button id="submitBtn" onclick="addProduct()">Save Product to Store</button>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAJgaanuAGqAsnnnnL6RqtGChrbKq86tfo",
+            authDomain: "sahelha-tech-cb54d.firebaseapp.com",
+            projectId: "sahelha-tech-cb54d",
+            storageBucket: "sahelha-tech-cb54d.firebasestorage.app",
+            messagingSenderId: "569212881292",
+            appId: "1:569212881292:web:e2f48aca0925f1b32e6ea9"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        window.addProduct = async function () {
+            const btn = document.getElementById('submitBtn');
+            const name = document.getElementById('pName').value;
+            const brand = document.getElementById('pBrand').value;
+            const price = document.getElementById('pPrice').value;
+            const oldPrice = document.getElementById('pOldPrice').value;
+            const category = document.getElementById('pCategory').value;
+            const img = document.getElementById('pImg').value.trim(); // تنظيف المسافات
+
+            if (!name || !price || !img) {
+                alert("Please fill Name, Price, and Image path!");
+                return;
+            }
+
+            // --- التعديل السحري للأوفر ---
+            // إذا كان هناك سعر قديم، ندمج كلمة offers مع القسم الأصلي
+            let finalCategory = category;
+            if (oldPrice && Number(oldPrice) > Number(price)) {
+                finalCategory = category + " offers";
+            }
+
+            btn.disabled = true;
+            btn.innerText = "Saving...";
+
+            try {
+                await addDoc(collection(db, "products"), {
+                    name: name,
+                    brand: brand,
+                    price: Number(price),
+                    oldPrice: oldPrice ? Number(oldPrice) : null,
+                    category: finalCategory, // سيحتوي على القسمين معاً في حالة العرض
+                    img: img,
+                    offer: oldPrice ? true : false,
+                    createdAt: new Date()
+                });
+
+                document.getElementById('successMsg').style.display = "block";
+                setTimeout(() => location.reload(), 2000);
+            } catch (e) {
+                alert("Error: " + e.message);
+                btn.disabled = false;
+                btn.innerText = "Save Product to Store";
+            }
+        }
+    </script>
+</body>
+
+</html>

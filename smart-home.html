@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Home Products | Sahelha Tech</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* ستايل سريع لضمان شكل المنتجات في هذه الصفحة */
+        body {
+            background-color: #121212;
+            color: white;
+            font-family: sans-serif;
+            margin: 0;
+            padding-top: 80px;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .page-title h1 {
+            font-size: 2.5rem;
+            color: #ff7043;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .product-card {
+            background: #1e1e1e;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid #333;
+            transition: 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            border-color: #ff7043;
+        }
+
+        .product-img img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .p-name {
+            font-size: 1.2rem;
+            margin: 10px 0;
+        }
+
+        .brand {
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .price {
+            color: #ff7043;
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .btn-order {
+            background: #ff7043;
+            color: white;
+            border: none;
+            padding: 12px;
+            width: 100%;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin: 20px;
+            color: #ff7043;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Categories</a>
+
+    <div class="page-title">
+        <h1>Smart Home Solutions</h1>
+        <p>Control your home with a single touch</p>
+    </div>
+
+    <div class="products-grid">
+
+        <div class="product-card">
+            <div class="product-img"><img src="images/smart-switch.jpg" alt="Switch"></div>
+            <div class="product-info">
+                <h4 class="p-name">Smart Touch Switch 3-Gang</h4>
+                <p class="brand">Brand: Sonoff</p>
+                <p class="price">750 EGP</p>
+                <button class="btn-order" onclick="sendOrder('Smart Switch 3-Gang', '750 EGP')">
+                    <i class="fab fa-whatsapp"></i> Order Now
+                </button>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <div class="product-img"><img src="images/ir-remote.jpg" alt="IR Remote"></div>
+            <div class="product-info">
+                <h4 class="p-name">Universal IR Remote</h4>
+                <p class="brand">Brand: Broadlink</p>
+                <p class="price">550 EGP</p>
+                <button class="btn-order" onclick="sendOrder('Universal IR Remote', '550 EGP')">
+                    <i class="fab fa-whatsapp"></i> Order Now
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function sendOrder(productName, price) {
+            const customerName = localStorage.getItem('userName') || "Customer";
+            const myNumber = "201021434316"; // رقم الواتساب الخاص بك
+
+            const message = `Hello Sahelha Tech!%0A%0A` +
+                `New Order from: *${customerName}*%0A` +
+                `Product: *${productName}*%0A` +
+                `Price: *${price}*%0A%0A` +
+                `Please contact me to confirm.`;
+
+            window.open(`https://wa.me/${myNumber}?text=${message}`, '_blank');
+        }
+    </script>
+</body>
+
+</html>
